@@ -3,9 +3,10 @@
 
 #include <vector>
 #include <algorithm>
-#include "../MyContainer.h"
+
 
 namespace Container {
+    template<typename T> class MyContainer;
 
     /**
      * AscendingIterator class for iterating over MyContainer elements in ascending order.

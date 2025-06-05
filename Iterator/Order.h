@@ -3,9 +3,10 @@
 
 #include <cstddef>
 #include <stdexcept>
-#include "../MyContainer.h"
+
 
 namespace Container {
+    template<typename T> class MyContainer;
 
     /**
      * @brief Iterator that scans a MyContainer in original insertion order.

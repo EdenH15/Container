@@ -3,9 +3,10 @@
 
 #include <vector>
 #include <algorithm>
-#include "../MyContainer.h"
+
 
 namespace Container {
+    template<typename T> class MyContainer;
 
     /**
      * @brief Iterator that scans a MyContainer in side-cross order.
@@ -58,8 +59,12 @@ namespace Container {
         }
 
         const T& operator*() const {
+            if (index >= sidecross_indices.size()) {
+                throw std::out_of_range("SideCrossIterator: Dereference past end");
+            }
             return container.elements[sidecross_indices[index]];
         }
+
 
         SideCrossIterator& operator++() {
             ++index;

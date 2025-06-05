@@ -3,9 +3,10 @@
 
 #include <vector>
 #include <algorithm>
-#include "../MyContainer.h"
+
 
 namespace Container {
+    template<typename T> class MyContainer;
 
     /**
      * @brief Iterator that scans a MyContainer in reverse order.
@@ -35,6 +36,9 @@ namespace Container {
         }
 
         const T& operator*() const {
+            if (index >= reverse_indices.size()) {
+                throw std::out_of_range("ReverseIterator: Dereferencing out of bounds");
+            }
             return container.elements[reverse_indices[index]];
         }
 
