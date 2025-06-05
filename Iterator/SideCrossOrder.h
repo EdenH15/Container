@@ -15,12 +15,13 @@ namespace Container {
     template<typename T = int>
     class SideCrossIterator {
     private:
+
         const MyContainer<T>& container;
         size_t index;
         std::vector<size_t> sidecross_indices;
 
         // Helper function to build the side-cross order indices
-        void buildSideCrossOrder() {
+        void build_sideCross_order() {
             std::vector<size_t> sorted_indices(container.size());
             for (size_t i = 0; i < container.size(); ++i) {
                 sorted_indices[i] = i;
@@ -32,6 +33,7 @@ namespace Container {
                 });
 
             sidecross_indices.clear();
+            if (sorted_indices.empty()) return;
 
             size_t left = 0;
             size_t right = sorted_indices.size() - 1;
@@ -52,7 +54,7 @@ namespace Container {
     public:
         SideCrossIterator(const MyContainer<T>& cont, size_t start = 0)
             : container(cont), index(start) {
-            buildSideCrossOrder();
+            build_sideCross_order();
         }
 
         const T& operator*() const {
@@ -73,6 +75,6 @@ namespace Container {
         }
     };
 
-} // namespace Container
+}
 
 #endif // SIDECROSSORDER_H

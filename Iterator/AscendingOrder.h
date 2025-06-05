@@ -14,19 +14,15 @@ namespace Container {
     template<typename T = int>
     class AscendingIterator {
     private:
-        const MyContainer<T>& container;   // Reference to the container being iterated
-        size_t index;                      // Current position in the sorted indices vector
-        std::vector<size_t> sorted_indices; // Vector storing indices of elements sorted ascendingly
+        const MyContainer<T>& container;
+        size_t index;
+        std::vector<size_t> sorted_indices;
 
-    public:
-        /**
-         * Constructor initializes iterator with container reference and start index (default 0).
-         * Builds sorted_indices vector sorted by element values in ascending order.
-         */
-        AscendingIterator(const MyContainer<T>& cont, size_t start = 0)
-            : container(cont), index(start) {
-            sorted_indices.resize(container.size());
-            for (size_t i = 0; i < container.size(); ++i) {
+        // Helper function to build sorted indices in ascending order
+        void build_ascending_order() {
+            size_t sz = container.size();
+            sorted_indices.resize(sz);
+            for (size_t i = 0; i < sz; ++i) {
                 sorted_indices[i] = i;
             }
             std::sort(sorted_indices.begin(), sorted_indices.end(),
@@ -35,36 +31,41 @@ namespace Container {
                       });
         }
 
+    public:
         /**
-         * Dereference operator returns the element pointed to by the iterator.
+         * Constructor initializes iterator with container reference and start index (default 0).
          */
+        AscendingIterator(const MyContainer<T>& cont, size_t start = 0)
+            : container(cont), index(start) {
+            build_ascending_order();
+        }
+
         const T& operator*() const {
+            if (index >= sorted_indices.size()) {
+                throw std::out_of_range("AscendingIterator dereference out of range");
+            }
             return container.elements[sorted_indices[index]];
         }
 
-        /**
-         * Prefix increment operator moves iterator to the next element.
-         */
+
         AscendingIterator& operator++() {
+            if (index >= sorted_indices.size()) {
+                throw std::out_of_range("AscendingIterator increment past end");
+            }
             ++index;
             return *this;
         }
 
-        /**
-         * Equality comparison operator checks if two iterators point to the same container and index.
-         */
+
         bool operator==(const AscendingIterator& other) const {
             return &container == &other.container && index == other.index;
         }
 
-        /**
-         * Inequality operator negates equality operator.
-         */
         bool operator!=(const AscendingIterator& other) const {
             return !(*this == other);
         }
     };
 
-} // namespace Container
+}
 
 #endif // ASCENDINGORDER_H
