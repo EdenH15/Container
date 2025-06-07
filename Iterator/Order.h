@@ -20,7 +20,7 @@ namespace Container {
         size_t index;
 
     public:
-        OrderIterator(const MyContainer<T>& cont, size_t start = 0)
+        explicit OrderIterator(const MyContainer<T>& cont, const size_t start = 0)
             : container(cont), index(start) {}
 
         const T& operator*() const {
@@ -33,6 +33,12 @@ namespace Container {
         OrderIterator& operator++() {
             ++index;
             return *this;
+        }
+
+        OrderIterator operator++(int) {
+            OrderIterator temp = *this;
+            ++(*this);
+            return temp;
         }
 
         bool operator==(const OrderIterator& other) const {

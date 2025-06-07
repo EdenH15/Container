@@ -22,7 +22,7 @@ namespace Container {
 
         // Helper function to build the reverse order indices
         void build_reverse_order() {
-            size_t s = container.size();
+            const size_t s = container.size();
             reverse_indices.resize(s);
             for (size_t i = 0; i < s; ++i) {
                 reverse_indices[i] = s - 1 - i;
@@ -42,9 +42,17 @@ namespace Container {
             return container.elements[reverse_indices[index]];
         }
 
+        // Prefix ++it
         ReverseIterator& operator++() {
             ++index;
             return *this;
+        }
+
+        // Postfix it++
+        ReverseIterator operator++(int) {
+            ReverseIterator temp = *this;
+            ++(*this);
+            return temp;
         }
 
         bool operator==(const ReverseIterator& other) const {

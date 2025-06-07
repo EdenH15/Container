@@ -3,6 +3,7 @@
 
 #include <vector>
 #include <algorithm>
+#include <stdexcept>
 
 
 namespace Container {
@@ -66,10 +67,19 @@ namespace Container {
         }
 
 
+        // Prefix ++it
         SideCrossIterator& operator++() {
             ++index;
             return *this;
         }
+
+        // Postfix it++
+        SideCrossIterator operator++(int) {
+            SideCrossIterator temp = *this;
+            ++(*this);
+            return temp;
+        }
+
 
         bool operator==(const SideCrossIterator& other) const {
             return &container == &other.container && index == other.index;

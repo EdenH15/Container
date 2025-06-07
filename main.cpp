@@ -62,7 +62,7 @@ int main() {
     }
 
     // Test behavior with an empty container
-    MyContainer<int> empty;
+    const MyContainer<int> empty;
     std::cout << "\nTesting empty container..." << std::endl;
     std::cout << "Size: " << empty.size() << std::endl;
     std::cout << "Elements: " << empty << std::endl;

@@ -20,7 +20,7 @@ namespace Container {
     private:
         const MyContainer<T>& container;
         size_t index;
-        std::vector<size_t> middleout_indices;
+        std::vector<size_t> middleOut_indices;
 
         /**
          * @brief Builds the vector of indices in middle-out order.
@@ -28,27 +28,27 @@ namespace Container {
          * The order starts at the middle element, then alternates left and right.
          */
         void build_middleOut_order() {
-            size_t s = container.size();
-            middleout_indices.clear();
+            const size_t s = container.size();
+            middleOut_indices.clear();
             if (s == 0) return;
 
-            size_t mid = s / 2;  // round down if even
+            const size_t mid = s / 2;  // round down if even
 
-            middleout_indices.push_back(mid);
+            middleOut_indices.push_back(mid);
 
             int left = static_cast<int>(mid) - 1;
             size_t right = mid + 1;
             bool nextIsLeft = true;
 
-            while (middleout_indices.size() < s) {
+            while (middleOut_indices.size() < s) {
                 if (nextIsLeft) {
                     if (left >= 0) {
-                        middleout_indices.push_back(static_cast<size_t>(left));
+                        middleOut_indices.push_back(static_cast<size_t>(left));
                         --left;
                     }
                 } else {
                     if (right < s) {
-                        middleout_indices.push_back(right);
+                        middleOut_indices.push_back(right);
                         ++right;
                     }
                 }
@@ -60,27 +60,34 @@ namespace Container {
     public:
         /**
          * @brief Constructs a MiddleOutIterator for the given container.
+         *
          * @param start Initial index position (default 0).
          */
-        MiddleOutIterator(const MyContainer<T>& cont, size_t start = 0)
+        explicit MiddleOutIterator(const MyContainer<T>& cont, const size_t start = 0)
             : container(cont), index(start) {
             build_middleOut_order();
         }
 
 
         const T& operator*() const {
-            if (index >= middleout_indices.size()) {
+            if (index >= middleOut_indices.size()) {
                 throw std::out_of_range("MiddleOutIterator dereference out of range");
             }
-            return container.elements[middleout_indices[index]];
+            return container.elements[middleOut_indices[index]];
         }
 
         MiddleOutIterator& operator++() {
-            if (index >= middleout_indices.size()) {
+            if (index >= middleOut_indices.size()) {
                 throw std::out_of_range("MiddleOutIterator increment out of range");
             }
             ++index;
             return *this;
+        }
+
+        MiddleOutIterator operator++(int) {
+            MiddleOutIterator temp = *this;
+            ++(*this);
+            return temp;
         }
 
 

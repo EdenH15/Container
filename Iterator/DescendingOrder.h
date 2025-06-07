@@ -61,6 +61,12 @@ namespace Container {
             return *this;
         }
 
+        DescendingIterator operator++(int) {
+            DescendingIterator temp = *this;
+            ++(*this);
+            return temp;
+        }
+
 
 
         bool operator==(const DescendingIterator& other) const {

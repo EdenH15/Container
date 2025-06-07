@@ -36,7 +36,7 @@ namespace Container {
         /**
          * Constructor initializes iterator with container reference and start index (default 0).
          */
-        AscendingIterator(const MyContainer<T>& cont, size_t start = 0)
+        explicit AscendingIterator(const MyContainer<T>& cont, size_t start = 0)
             : container(cont), index(start) {
             build_ascending_order();
         }
@@ -55,6 +55,12 @@ namespace Container {
             }
             ++index;
             return *this;
+        }
+
+        AscendingIterator operator++(int) {
+            AscendingIterator temp = *this;
+            ++(*this);
+            return temp;
         }
 
 
