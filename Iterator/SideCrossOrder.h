@@ -66,6 +66,14 @@ namespace Container {
             return container.elements[sidecross_indices[index]];
         }
 
+        T& operator*() {
+            if (index >= sidecross_indices.size()) {
+                throw std::out_of_range("SideCrossIterator: Dereferencing out of bounds");
+            }
+            return container.elements[sidecross_indices[index]];
+        }
+
+
 
         // Prefix ++it
         SideCrossIterator& operator++() {

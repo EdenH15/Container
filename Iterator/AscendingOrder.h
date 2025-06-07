@@ -43,7 +43,14 @@ namespace Container {
 
         const T& operator*() const {
             if (index >= sorted_indices.size()) {
-                throw std::out_of_range("AscendingIterator dereference out of range");
+                throw std::out_of_range("AscendingIterator: dereference out of range");
+            }
+            return container.elements[sorted_indices[index]];
+        }
+
+        T& operator*() {
+            if (index >= sorted_indices.size()) {
+                throw std::out_of_range("AscendingIterator: dereferencing out of bounds");
             }
             return container.elements[sorted_indices[index]];
         }

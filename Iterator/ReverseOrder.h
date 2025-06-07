@@ -30,12 +30,19 @@ namespace Container {
         }
 
     public:
-        ReverseIterator(const MyContainer<T>& cont, size_t start = 0)
+        explicit ReverseIterator(const MyContainer<T>& cont, size_t start = 0)
             : container(cont), index(start) {
             build_reverse_order();
         }
 
         const T& operator*() const {
+            if (index >= reverse_indices.size()) {
+                throw std::out_of_range("ReverseIterator: Dereferencing out of bounds");
+            }
+            return container.elements[reverse_indices[index]];
+        }
+
+        T& operator*() {
             if (index >= reverse_indices.size()) {
                 throw std::out_of_range("ReverseIterator: Dereferencing out of bounds");
             }

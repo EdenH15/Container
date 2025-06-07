@@ -40,7 +40,7 @@ namespace Container {
          * @param cont Reference to the container.
          * @param start Starting index for iteration (default is 0).
          */
-        DescendingIterator(const MyContainer<T>& cont, size_t start = 0)
+        explicit DescendingIterator(const MyContainer<T>& cont, size_t start = 0)
             : container(cont), index(start) {
             build_descending_order();
         }
@@ -48,7 +48,14 @@ namespace Container {
 
         const T& operator*() const {
             if (index >= sorted_indices.size()) {
-                throw std::out_of_range("DescendingIterator dereference out of range");
+                throw std::out_of_range("DescendingIterator: dereference out of range");
+            }
+            return container.elements[sorted_indices[index]];
+        }
+
+        T& operator*() {
+            if (index >= sorted_indices.size()) {
+                throw std::out_of_range("DescendingIterator: dereferencing out of bounds");
             }
             return container.elements[sorted_indices[index]];
         }

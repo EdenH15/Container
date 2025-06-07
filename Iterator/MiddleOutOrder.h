@@ -76,6 +76,13 @@ namespace Container {
             return container.elements[middleOut_indices[index]];
         }
 
+        T& operator*() {
+            if (index >= middleOut_indices.size()) {
+                throw std::out_of_range("MiddleOutIterator: Dereferencing out of bounds");
+            }
+            return container.elements[middleOut_indices[index]];
+        }
+
         MiddleOutIterator& operator++() {
             if (index >= middleOut_indices.size()) {
                 throw std::out_of_range("MiddleOutIterator increment out of range");

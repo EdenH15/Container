@@ -30,6 +30,13 @@ namespace Container {
             return container.elements[index];
         }
 
+        T& operator*() {
+            if (index >= container.size()) {
+                throw std::out_of_range("OrderIterator: Dereferencing out of bounds");
+            }
+            return container.elements[container[index]];
+        }
+
         OrderIterator& operator++() {
             ++index;
             return *this;

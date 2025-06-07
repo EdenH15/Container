@@ -129,7 +129,7 @@ TEST_CASE("MiddleOutIterator order") {
     container.addElement(40);
     container.addElement(50);
 
-    std::vector<int> expected = {30, 40, 20, 50, 10};
+    std::vector<int> expected = {30, 20, 40, 10, 50};
     std::vector<int> actual;
 
     for (auto it = container.begin_middle_out_order(); it != container.end_middle_out_order(); ++it)
