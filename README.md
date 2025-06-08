@@ -73,6 +73,8 @@ make valgrind
 make clean
 
 
+
+```markdown
 ### ✅ What is Tested?
 
 - Creating containers with default and custom template types (e.g., int, std::string).
@@ -88,10 +90,12 @@ make clean
 - Memory management tested via valgrind to ensure no leaks.
 
 
-👩‍💻 Author
-    Eden Hassin  
-    Edenhassin@gmail.com  
-    Project completed: May-june 2025
+
+👩‍💻 Author  
+Eden Hassin  
+Edenhassin@gmail.com  
+Project completed: May-June 2025
+
 
 
 
