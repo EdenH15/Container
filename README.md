@@ -72,22 +72,23 @@ make valgrind
 # Clean build artifacts and executables
 make clean
 
+---
 
+### Makefile Commands:
 
-```markdown
-### ✅ What is Tested?
+✅ What is Tested?
 
-- Creating containers with default and custom template types (e.g., int, std::string).
+    Creating containers with default and custom template types (e.g., int, std::string).
 
-- Adding and removing elements, including exception throwing when removing non-existent elements.
+    Adding and removing elements, including exception throwing when removing non-existent elements.
 
-- Iterator traversals verifying element order for each iterator type.
+    Iterator traversals verifying element order for each iterator type.
 
-- Exception throwing when incrementing iterators past the end (overflow).
+    Exception throwing when incrementing iterators past the end (overflow).
 
-- Behavior of all iterators on empty containers.
+    Behavior of all iterators on empty containers.
 
-- Memory management tested via valgrind to ensure no leaks.
+    Memory management tested via valgrind to ensure no leaks.
 
 
 
