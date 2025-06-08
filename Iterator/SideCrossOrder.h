@@ -1,10 +1,11 @@
+//Email:Edenhassin@gmail.com
+
 #ifndef SIDECROSSORDER_H
 #define SIDECROSSORDER_H
 
 #include <vector>
 #include <algorithm>
 #include <stdexcept>
-
 
 namespace Container {
     template<typename T> class MyContainer;
@@ -13,19 +14,27 @@ namespace Container {
      * @brief Iterator that scans a MyContainer in side-cross order.
      *
      * The iteration order alternates between the smallest and largest remaining elements.
+     * For example, for the sorted container [1, 2, 3, 4, 5], the iteration order will be:
+     * 1, 5, 2, 4, 3
      */
+
     template<typename T = int>
     class SideCrossIterator {
     private:
-
         const MyContainer<T>& container;
         size_t index;
         std::vector<size_t> sidecross_indices;
 
-        // Helper function to build the side-cross order indices
+        /**
+         * @brief Builds the vector of indices in side-cross order.
+         *
+         * The method sorts the indices by the values they point to, and then
+         * alternates between taking the smallest and the largest remaining elements.
+         */
         void build_sideCross_order() {
-            std::vector<size_t> sorted_indices(container.size());
-            for (size_t i = 0; i < container.size(); ++i) {
+            const size_t s = container.size();
+            std::vector<size_t> sorted_indices(s);
+            for (size_t i = 0; i < s; ++i) {
                 sorted_indices[i] = i;
             }
 
@@ -48,17 +57,29 @@ namespace Container {
                     sidecross_indices.push_back(sorted_indices[right]);
                 }
                 left++;
-                if (right == 0) break;
+                if (right == 0) break;  // prevent underflow
                 right--;
             }
         }
 
     public:
+        /**
+         * @brief Constructs a SideCrossIterator for a given container.
+         *
+         * @param cont Reference to the container.
+         * @param start Starting index in the iteration order (default is 0).
+         */
         SideCrossIterator(const MyContainer<T>& cont, size_t start = 0)
             : container(cont), index(start) {
             build_sideCross_order();
         }
 
+        /**
+         * @brief Dereference operator for reading the current element (const version).
+         *
+         * @return A const reference to the current element.
+         * @throws std::out_of_range if the iterator is out of bounds.
+         */
         const T& operator*() const {
             if (index >= sidecross_indices.size()) {
                 throw std::out_of_range("SideCrossIterator: Dereference past end");
@@ -66,33 +87,44 @@ namespace Container {
             return container.elements[sidecross_indices[index]];
         }
 
-        T& operator*() {
-            if (index >= sidecross_indices.size()) {
-                throw std::out_of_range("SideCrossIterator: Dereferencing out of bounds");
-            }
-            return container.elements[sidecross_indices[index]];
-        }
-
-
-
-        // Prefix ++it
+        /**
+         * @brief Pre-increment operator (++it).
+         *
+         * Advances the iterator to the next element.
+         * @return Reference to the incremented iterator.
+         */
         SideCrossIterator& operator++() {
             ++index;
             return *this;
         }
 
-        // Postfix it++
+        /**
+         * @brief Post-increment operator (it++).
+         *
+         * @return Copy of the iterator before it was incremented.
+         */
         SideCrossIterator operator++(int) {
             SideCrossIterator temp = *this;
             ++(*this);
             return temp;
         }
 
-
+        /**
+         * @brief Equality comparison operator.
+         *
+         * @param other Iterator to compare with.
+         * @return True if iterators are equal.
+         */
         bool operator==(const SideCrossIterator& other) const {
             return &container == &other.container && index == other.index;
         }
 
+        /**
+         * @brief Inequality comparison operator.
+         *
+         * @param other Iterator to compare with.
+         * @return True if iterators are not equal.
+         */
         bool operator!=(const SideCrossIterator& other) const {
             return !(*this == other);
         }

@@ -1,8 +1,9 @@
+//Email:Edenhassin@gmail.com
+
 #ifndef MIDDLEOUTORDER_H
 #define MIDDLEOUTORDER_H
 
 #include <vector>
-#include <algorithm>
 
 
 namespace Container {
@@ -41,34 +42,36 @@ namespace Container {
             bool nextIsLeft = true;
 
             while (middleOut_indices.size() < s) {
-                if (nextIsLeft) {
-                    if (left >= 0) {
-                        middleOut_indices.push_back(static_cast<size_t>(left));
-                        --left;
-                    }
-                } else {
-                    if (right < s) {
-                        middleOut_indices.push_back(right);
-                        ++right;
-                    }
+                if (nextIsLeft && left >= 0) {
+                    middleOut_indices.push_back(static_cast<size_t>(left));
+                    --left;
+                } else if (!nextIsLeft && right < s) {
+                    middleOut_indices.push_back(right);
+                    ++right;
                 }
                 nextIsLeft = !nextIsLeft;
             }
-        }
 
+        }
 
     public:
         /**
          * @brief Constructs a MiddleOutIterator for the given container.
          *
-         * @param start Initial index position (default 0).
+         * @param cont Reference to the container to iterate.
+         * @param start Initial index position within the computed middle-out order (default is 0).
          */
         explicit MiddleOutIterator(const MyContainer<T>& cont, const size_t start = 0)
             : container(cont), index(start) {
             build_middleOut_order();
         }
 
-
+        /**
+         * @brief Dereference operator.
+         *
+         * @return A const reference to the current element in the container.
+         * @throws std::out_of_range if the iterator is out of bounds.
+         */
         const T& operator*() const {
             if (index >= middleOut_indices.size()) {
                 throw std::out_of_range("MiddleOutIterator dereference out of range");
@@ -76,13 +79,12 @@ namespace Container {
             return container.elements[middleOut_indices[index]];
         }
 
-        T& operator*() {
-            if (index >= middleOut_indices.size()) {
-                throw std::out_of_range("MiddleOutIterator: Dereferencing out of bounds");
-            }
-            return container.elements[middleOut_indices[index]];
-        }
-
+        /**
+         * @brief Prefix increment operator.
+         *
+         * @return Reference to the incremented iterator.
+         * @throws std::out_of_range if incrementing beyond the range.
+         */
         MiddleOutIterator& operator++() {
             if (index >= middleOut_indices.size()) {
                 throw std::out_of_range("MiddleOutIterator increment out of range");
@@ -91,19 +93,33 @@ namespace Container {
             return *this;
         }
 
+        /**
+         * @brief Postfix increment operator.
+         *
+         * @return Copy of the iterator before the increment.
+         */
         MiddleOutIterator operator++(int) {
             MiddleOutIterator temp = *this;
             ++(*this);
             return temp;
         }
 
-
-
+        /**
+         * @brief Equality comparison operator.
+         *
+         * @param other Iterator to compare with.
+         * @return True if both iterators point to the same position in the same container.
+         */
         bool operator==(const MiddleOutIterator& other) const {
             return &container == &other.container && index == other.index;
         }
 
-
+        /**
+         * @brief Inequality comparison operator.
+         *
+         * @param other Iterator to compare with.
+         * @return True if the iterators point to different positions or containers.
+         */
         bool operator!=(const MiddleOutIterator& other) const {
             return !(*this == other);
         }
