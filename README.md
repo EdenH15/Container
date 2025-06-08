@@ -39,6 +39,17 @@ The project includes comprehensive unit tests for all functionalities, proper ex
 
 ---
 
+### Makefile Commands:
+
+| Command         | Description                                   |
+| --------------- | ---------------------------------------------|
+| `make Main`     | Builds and runs the demonstration executable (`Main.cpp`) |
+| `make test`     | Builds and runs the unit tests (`Test.cpp`) using doctest |
+| `make valgrind` | Runs memory leak checks on the demo executable with `valgrind` |
+| `make clean`    | Removes all compiled binaries and temporary files |
+
+---
+
 ### 🛠️ Usage Examples
 
 ```bash
@@ -64,7 +75,6 @@ make clean
 - Iterator traversals verifying element order for each iterator type.
 - Exception throwing when incrementing iterators past the end (overflow).
 - Behavior of all iterators on empty containers.
-- Memory management tested via valgrind to ensure no leaks.
 
 ---
 
