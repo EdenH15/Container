@@ -15,13 +15,6 @@
 
 namespace Container{
 
-    template<typename T> class AscendingIterator;
-    template<typename T> class DescendingIterator;
-    template<typename T> class SideCrossIterator;
-    template<typename T> class ReverseIterator;
-    template<typename T> class OrderIterator;
-    template<typename T> class MiddleOutIterator;
-
     template<typename T = int>
     class MyContainer {
     private:
@@ -38,7 +31,14 @@ namespace Container{
 
         void addElement(const T& element);
         void removeElement(const T& item);
-        size_t size() const;
+
+        size_t size() const { return elements.size(); }
+
+        /**
+     * ⚠️ Warning:
+     * Iterators become invalid if the container is modified (via addElement or removeElement).
+     * Make sure to avoid modifying the container while iterating over it.
+     */
 
         AscendingIterator<T> begin_ascending_order() const { return AscendingIterator<T>(*this, 0); }
         AscendingIterator<T> end_ascending_order() const { return AscendingIterator<T>(*this, size()); }
@@ -71,8 +71,6 @@ namespace Container{
         }
     };
 
-
-
   template<typename T>
   void MyContainer<T>::addElement(const T& element){
         elements.push_back(element);
@@ -80,27 +78,12 @@ namespace Container{
 
     template<typename T>
     void MyContainer<T>::removeElement(const T& item) {
-      bool found = false;
-      elements.erase(std::remove_if(elements.begin(), elements.end(),
-          [&](const T& el) {
-              if (el == item) {
-                  found = true;
-                  return true;
-              }
-              return false;
-          }), elements.end());
-
-      if (!found) {
+      auto oldSize = elements.size();
+      elements.erase(std::remove(elements.begin(), elements.end(), item), elements.end());
+      if (elements.size() == oldSize) {
           throw std::runtime_error("Element not found in container");
       }
   }
-
-    template<typename T>
-    size_t MyContainer<T>::size() const {
-      return elements.size();
-  }
-
-
 
 
 

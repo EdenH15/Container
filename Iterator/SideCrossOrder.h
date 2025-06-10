@@ -23,7 +23,7 @@ namespace Container {
     private:
         const MyContainer<T>& container;
         size_t index;
-        std::vector<size_t> sidecross_indices;
+        std::vector<size_t> sideCross_indices;
 
         /**
          * @brief Builds the vector of indices in side-cross order.
@@ -43,7 +43,7 @@ namespace Container {
                     return container.elements[a] < container.elements[b];
                 });
 
-            sidecross_indices.clear();
+            sideCross_indices.clear();
             if (sorted_indices.empty()) return;
 
             size_t left = 0;
@@ -51,10 +51,10 @@ namespace Container {
 
             while (left <= right) {
                 if (left == right) {
-                    sidecross_indices.push_back(sorted_indices[left]);
+                    sideCross_indices.push_back(sorted_indices[left]);
                 } else {
-                    sidecross_indices.push_back(sorted_indices[left]);
-                    sidecross_indices.push_back(sorted_indices[right]);
+                    sideCross_indices.push_back(sorted_indices[left]);
+                    sideCross_indices.push_back(sorted_indices[right]);
                 }
                 left++;
                 if (right == 0) break;  // prevent underflow
@@ -69,7 +69,7 @@ namespace Container {
          * @param cont Reference to the container.
          * @param start Starting index in the iteration order (default is 0).
          */
-        SideCrossIterator(const MyContainer<T>& cont, size_t start = 0)
+        explicit SideCrossIterator(const MyContainer<T>& cont, const size_t start = 0)
             : container(cont), index(start) {
             build_sideCross_order();
         }
@@ -81,10 +81,10 @@ namespace Container {
          * @throws std::out_of_range if the iterator is out of bounds.
          */
         const T& operator*() const {
-            if (index >= sidecross_indices.size()) {
+            if (index >= sideCross_indices.size()) {
                 throw std::out_of_range("SideCrossIterator: Dereference past end");
             }
-            return container.elements[sidecross_indices[index]];
+            return container.elements[sideCross_indices[index]];
         }
 
         /**

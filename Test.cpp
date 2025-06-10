@@ -52,6 +52,26 @@ TEST_CASE("AscendingIterator order") {
         actual.push_back(*it);
 
     CHECK((actual == expected));
+
+    auto it = container.begin_ascending_order();
+    SUBCASE("Dereference operator *") {
+        CHECK((*it == 2));
+    }
+    SUBCASE("Pre-increment ++it") {
+        ++it;
+        CHECK((*it == 5));
+    }
+    SUBCASE("Post-increment it++") {
+        AscendingIterator<int> before = it++;
+        CHECK((*before == 2));
+        CHECK((*it == 5));
+    }
+    SUBCASE("Increment to end and exception") {
+        ++it; // 2 -> 5
+        ++it; // 5 -> 7
+        ++it; // now out of range
+        CHECK_THROWS_AS(*it, std::out_of_range);
+    }
 }
 
 // Check DescendingIterator produces reversed sorted order
@@ -68,6 +88,26 @@ TEST_CASE("DescendingIterator order") {
         actual.push_back(*it);
 
     CHECK((actual == expected));
+
+    auto it = container.begin_descending_order();
+    SUBCASE("Dereference operator *") {
+        CHECK((*it == 4));
+    }
+    SUBCASE("Pre-increment ++it") {
+        ++it;
+        CHECK((*it == 3));
+    }
+    SUBCASE("Post-increment it++") {
+        DescendingIterator<int> before = it++;
+        CHECK((*before == 4));
+        CHECK((*it == 3));
+    }
+    SUBCASE("Increment to end and exception") {
+        ++it; // 4 -> 3
+        ++it; // 3 -> 1
+        ++it; // now out of range
+        CHECK_THROWS_AS(*it, std::out_of_range);
+    }
 }
 
 // Check SideCrossIterator alternates smallest/largest
@@ -86,6 +126,28 @@ TEST_CASE("SideCrossIterator order") {
         actual.push_back(*it);
 
     CHECK((actual == expected));
+
+    auto it = container.begin_side_cross_order();
+    SUBCASE("Dereference operator *") {
+        CHECK((*it == 1));
+    }
+    SUBCASE("Pre-increment ++it") {
+        ++it;
+        CHECK((*it == 9));
+    }
+    SUBCASE("Post-increment it++") {
+        SideCrossIterator<int> before = it++;
+        CHECK((*before == 1));
+        CHECK((*it == 9));
+    }
+    SUBCASE("Increment to end and exception") {
+        ++it; // 1 -> 9
+        ++it; // 9 -> 3
+        ++it; // 3 -> 7
+        ++it; // 7 -> 5
+        ++it; // now out of range
+        CHECK_THROWS_AS(*it, std::out_of_range);
+    }
 }
 
 // Check ReverseIterator goes backwards by insertion order
@@ -102,6 +164,27 @@ TEST_CASE("ReverseIterator order") {
         actual.push_back(*it);
 
     CHECK((actual == expected));
+
+    auto it = container.begin_reverse_order();
+    SUBCASE("Dereference operator *") {
+        CHECK((*it == 30));
+    }
+    SUBCASE("Pre-increment ++it") {
+        ++it;
+        CHECK((*it == 20));
+    }
+    SUBCASE("Post-increment it++") {
+        ReverseIterator<int> before = it++;
+        CHECK((*before == 30));
+        CHECK((*it == 20));
+    }
+    SUBCASE("Increment to end and exception") {
+        ++it; // 30 -> 20
+        ++it; // 20 -> 10
+        ++it; // now out of range
+        CHECK_THROWS_AS(*it, std::out_of_range);
+    }
+
 }
 
 // Check OrderIterator returns elements in insertion order
@@ -118,6 +201,26 @@ TEST_CASE("OrderIterator order (insertion)") {
         actual.push_back(*it);
 
     CHECK((actual == expected));
+
+    auto it = container.begin_order();
+    SUBCASE("Dereference operator *") {
+        CHECK((*it == 5));
+    }
+    SUBCASE("Pre-increment ++it") {
+        ++it;
+        CHECK((*it == 2));
+    }
+    SUBCASE("Post-increment it++") {
+        OrderIterator<int> before = it++;
+        CHECK((*before == 5));
+        CHECK((*it == 2));
+    }
+    SUBCASE("Increment to end and exception") {
+        ++it; // 5 -> 2
+        ++it; // 2 -> 8
+        ++it; // now out of range
+        CHECK_THROWS_AS(*it, std::out_of_range);
+    }
 }
 
 // Check MiddleOutIterator starts at middle and alternates outwards
@@ -136,6 +239,28 @@ TEST_CASE("MiddleOutIterator order") {
         actual.push_back(*it);
 
     CHECK((actual == expected));
+
+    auto it = container.begin_middle_out_order();
+    SUBCASE("Dereference operator *") {
+        CHECK((*it == 30));
+    }
+    SUBCASE("Pre-increment ++it") {
+        ++it;
+        CHECK((*it == 20));
+    }
+    SUBCASE("Post-increment it++") {
+        MiddleOutIterator<int> before = it++;
+        CHECK((*before == 30));
+        CHECK((*it == 20));
+    }
+    SUBCASE("Increment to end and exception") {
+        ++it; // 30 -> 20
+        ++it; // 20 -> 40
+        ++it; //40 -> 10
+        ++it; //10 -> 50
+        ++it; // now out of range
+        CHECK_THROWS_AS(*it, std::out_of_range);
+    }
 }
 
 // Check all iterators are empty when container is empty
