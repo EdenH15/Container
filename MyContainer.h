@@ -13,8 +13,7 @@
 #include "Iterator/ReverseOrder.h"
 #include "Iterator/MiddleOutOrder.h"
 
-namespace Container{
-
+namespace Container {
     template<typename T = int>
     class MyContainer {
     private:
@@ -29,9 +28,15 @@ namespace Container{
         friend class OrderIterator<T>;
         friend class MiddleOutIterator<T>;
 
-        void addElement(const T& element);
-        void removeElement(const T& item);
+        void addElement(const T &element);
 
+        void removeElement(const T &item);
+
+        /**
+         * **\
+         * @brief Returns the number of elements currently stored.
+         * @return Size of the container.
+         */
         size_t size() const { return elements.size(); }
 
         /**
@@ -58,7 +63,14 @@ namespace Container{
         MiddleOutIterator<T> begin_middle_out_order() const { return MiddleOutIterator<T>(*this, 0); }
         MiddleOutIterator<T> end_middle_out_order() const { return MiddleOutIterator<T>(*this, size()); }
 
-        friend std::ostream& operator<<(std::ostream& os, const MyContainer<T>& container) {
+        /**
+        * **\
+        * @brief Outputs the container elements to a stream.
+        * @param os Output stream.
+        * @param container Container to print.
+        * @return Reference to the output stream.
+        */
+        friend std::ostream &operator<<(std::ostream &os, const MyContainer<T> &container) {
             os << "[";
             for (size_t i = 0; i < container.elements.size(); ++i) {
                 os << container.elements[i];
@@ -71,21 +83,29 @@ namespace Container{
         }
     };
 
-  template<typename T>
-  void MyContainer<T>::addElement(const T& element){
+    /**
+     * **\
+     * @brief Adds an element to the container.
+     * @param element Element to add.
+     */
+    template<typename T>
+    void MyContainer<T>::addElement(const T &element) {
         elements.push_back(element);
     }
 
+    /**
+         * **\
+         * @brief Removes an element from the container.
+         * @param item The element to remove.
+         * @throws std::runtime_error if the element is not found.
+         */
     template<typename T>
-    void MyContainer<T>::removeElement(const T& item) {
-      auto oldSize = elements.size();
-      elements.erase(std::remove(elements.begin(), elements.end(), item), elements.end());
-      if (elements.size() == oldSize) {
-          throw std::runtime_error("Element not found in container");
-      }
-  }
-
-
-
+    void MyContainer<T>::removeElement(const T &item) {
+        auto oldSize = elements.size();
+        elements.erase(std::remove(elements.begin(), elements.end(), item), elements.end());
+        if (elements.size() == oldSize) {
+            throw std::runtime_error("Element not found in container");
+        }
+    }
 }
 #endif //MYCONTAINER_H
