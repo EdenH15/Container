@@ -20,7 +20,7 @@ test:
 
 # Valgrind memory check on tests
 valgrind:
-	valgrind --leak-check=full --track-origins=yes ./$(EXEC_TEST)
+	valgrind --leak-check=full --track-origins=yes ./$(EXEC_MAIN)
 
 # Clean generated binaries
 clean:
